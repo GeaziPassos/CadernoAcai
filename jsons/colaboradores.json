@@ -1,0 +1,20 @@
+[
+    {
+        "id": 0,
+        "nome": "Gustas",
+        "bica": 0,
+        "fecharCaixa": 0
+    },
+    {
+        "id": 1,
+        "nome": "Geada",
+        "bica": 1,
+        "fecharCaixa": 1
+    },
+    {
+        "id": 2,
+        "nome": "Tiozao",
+        "bica": 0,
+        "fecharCaixa": 0
+    }
+]

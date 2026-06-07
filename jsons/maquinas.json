@@ -1,0 +1,47 @@
+[
+    {
+        "id": 0,
+        "produtora": "8",
+        "linha": "2"
+    },
+    {
+        "id": 1,
+        "produtora": "9",
+        "linha": "3"
+    },
+    {
+        "id": 2,
+        "produtora": "7",
+        "linha": "4"
+    },
+    {
+        "id": 3,
+        "produtora": "10",
+        "linha": "5"
+    },
+    {
+        "id": 4,
+        "produtora": "6",
+        "linha": "6"
+    },
+    {
+        "id": 5,
+        "produtora": "12",
+        "linha": "7"
+    },
+    {
+        "id": 6,
+        "produtora": "13",
+        "linha": "8"
+    },
+    {
+        "id": 7,
+        "produtora": "11",
+        "linha": "9"
+    },
+    {
+        "id": 9,
+        "produtora": "8",
+        "linha": "2"
+    }
+]

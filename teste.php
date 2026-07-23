@@ -18,12 +18,17 @@ require_once "repositorios/DuplaRepositorio.php";
 //$escalaMaquina = new EscalaMaquina(1, 2);
 //$repEscalaMaquina->salvar($escalaMaquina);
 
-$repColaborador = new ColaboradorRepositorio();
-$repDupla = new DuplaRepositorio();
+//$repColaborador = new ColaboradorRepositorio();
+//$repDupla = new DuplaRepositorio();
 
 //$dupla = new Dupla(0, 0, 1);
 //$repDupla->salvar($dupla);
 
-$dupla = $repDupla->buscarPorId(0);
-$colaborador1 = $repColaborador->buscarPorId($dupla->getColaborador1Id());
-echo "A dupla " . $dupla->getId() . " é formada por " . $colaborador1->getNome();
+//$dupla = $repDupla->buscarPorId(0);
+//$colaborador1 = $repColaborador->buscarPorId($dupla->getColaborador1Id());
+//echo "A dupla " . $dupla->getId() . " é formada por " . $colaborador1->getNome();
+
+
+$repProduto = new ProdutoRepositorio();
+$produto = new Produto(1, '10kg','Caixa', 3);
+$repProduto->salvar($produto);

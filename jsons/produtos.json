@@ -1,0 +1,14 @@
+[
+    {
+        "id": 0,
+        "nome": "5kg",
+        "tipo": "Caixa",
+        "quantidadeColaboradores": 3
+    },
+    {
+        "id": 1,
+        "nome": "10kg",
+        "tipo": "Caixa",
+        "quantidadeColaboradores": 3
+    }
+]

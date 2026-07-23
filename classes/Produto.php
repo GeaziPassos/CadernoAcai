@@ -12,9 +12,19 @@ class Produto {
         $this->quantidadeColaboradores = $quantidadeColaboradores;
     }
 
+    public function toArray() {
+        $array = [
+            "id" => $this->id,
+            "nome" => $this->nome,
+            "tipo" => $this->tipo,
+            "quantidadeColaboradores" => $this->quantidadeColaboradores
+            ];
+        return $array;
+    }
+
     // Getters
     public function getId() {
-        return $this->Id;
+        return $this->id;
     }
 
     public function getNome() {

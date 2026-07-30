@@ -14,6 +14,17 @@ class Colaborador {
         $this->fecharCaixa = $fecharCaixa;
     }
 
+    public function toArray(){
+        $array = [
+            "id" => $this->getId(),
+            "nome" => $this->getNome(),
+            "bica" => $this->getBica(),
+            "fecharCaixa" => $this->getBica(),
+        ];
+
+        return $array;
+    }
+
     // Getters
     public function getId() {
         return $this->id;

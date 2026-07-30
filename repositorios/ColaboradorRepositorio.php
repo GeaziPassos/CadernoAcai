@@ -32,7 +32,7 @@ class ColaboradorRepositorio {
         $colaboradores = [];
         foreach ($dados as $item) {
             $colaborador = new Colaborador($item["id"], $item["nome"], $item["bica"], $item["fecharCaixa"]);
-            $colaboradores[] = $colaborador;
+            $colaboradores[] = $colaborador->toArray();
         }
         return $colaboradores;
     }

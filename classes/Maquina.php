@@ -10,6 +10,16 @@ class Maquina {
         $this->linha = $linha;
     }
 
+    public function toArray() {
+        $array = [
+            "id" => $this->id,
+            "produtora" => $this->produtora,
+            "linha" => $this->linha,
+        ];
+
+        return $array;
+    }
+
     // Getters
     public function getId() {
         return $this->id;

@@ -32,8 +32,8 @@ class MaquinaRepositorio {
         $maquinas = [];
         foreach ($dados as $item) {
             $maquina = new Maquina($item["id"], $item["produtora"], $item["linha"]);
-            $maquinas[] = $maquina;
-        }
+            $maquinas[] = $maquina->toArray();
+        }   
         return $maquinas;
     }
 

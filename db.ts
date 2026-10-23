@@ -1,19 +1,19 @@
-import mysql from 'mysql2';
+import 'dotenv/config';
+import {Pool} from 'pg';
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'geh12345',
-    database: 'cadernoAcai',
-    port: 3306
+const connectionString = process.env.DATABASE_UR;
+
+if(!connectionString){
+    throw new Error('DATABASE_URL não configurada');
+}
+
+const pool = new Pool({
+    connectionString,
+    ssl: {rejectUnauthorized: false}
 });
 
-connection.connect((err: mysql.QueryError | null) =>{
-    if(err){
-        console.error('Erro ao conectar ao MySQL', err.message);
-        return;
-    }
-    console.log("MySQL conectado")
-})
+pool.on('error', (err) => {
+    console.error('Erro inesperado no pool:', err)
+});
 
-export default connection;
+export default pool;

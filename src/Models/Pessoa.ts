@@ -1,11 +1,11 @@
 class Pessoa{
     private _id: number |undefined
     private _nome: string 
-    private _duplaID: number | undefined
+    private _dupla_id: number | undefined
 
     constructor(nome: string, id?: number, duplaID?: number){
         this._nome = nome;
-        this._duplaID = duplaID;
+        this._dupla_id = duplaID;
         this._id = id;
     }
 
@@ -19,7 +19,7 @@ class Pessoa{
     }
 
     get duplaID(): number | undefined{
-            return this._duplaID;
+            return this._dupla_id;
     }
 
 //Setters
@@ -28,11 +28,11 @@ class Pessoa{
     }
 
     set duplaID(duplaID: number){
-        this._duplaID = duplaID
+        this._dupla_id = duplaID
     }
 
     removeDupla(){
-        this._duplaID = undefined;
+        this._dupla_id = undefined;
     }
 }
 

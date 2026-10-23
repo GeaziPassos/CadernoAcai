@@ -5,18 +5,26 @@ const router = Router();
 import connection from "../../db.js"
 
 //CREATE
-router.post('/', (req: Request, res: Response)=>{
+router.post('/', async (req: Request, res: Response) => {
 
-    const {nome, duplaID} = req.body;
+    try{
+        const {nome, dupla_id} = req.body;
+        
+        const resultado = await connection.query(
+            `INSERT INTO public.pessoa (nome, dupla_id)
+            VALUES ($1, $2)
+            RETURNING  *`,
+            [nome, dupla_id ?? undefined]
+        );
+        
+        res.status(201).json(resultado.rows[0]);   
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            mensagem: 'Erro ao cadastrar pessoa'
+        });
+    };
 
-    connection.query(
-        'CALL inserirPessoa(?,?)',
-        [nome, duplaID],
-        err =>{
-            if(err) return res.status(500).json(err);
-            res.json({mensagem: 'Cliente cadastrado com sucesso'})
-        }
-    );
-})
+});
 
 export default router;

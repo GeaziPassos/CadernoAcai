@@ -5,5 +5,5 @@ export interface Pessoa {
 }
 
 export interface NovaPessoa {
-    nome: string
+    nome: string;
 }

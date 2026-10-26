@@ -8,8 +8,11 @@ const app = express();
 
 app.use(cors())
 
+app.use(express.json());
 app.use('/pessoas', pessoaRoutes);
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
+
+export default app;

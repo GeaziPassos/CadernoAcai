@@ -26,7 +26,7 @@
     "dev:front": "vite",
     "build:front": "vite build",
     "preview": "vite preview",
-    "dev:back": "tsx watch server.ts",
+    "dev:back": "tsx watch back-end/server.ts",
     "build:back": "tsc",
     "start:back": "node dist/backend/server.ts"
   },

@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from "express";
 import cors from "cors";
-import pessoaRoutes from "./src/pessoas/pessoasRoutes.js";
+import pessoaRoutes from "./src/pessoas/pessoaRoutes.js";
 const port = Number(process.env.PORT) || 3006;
 
 const app = express();

@@ -13,6 +13,7 @@ export async function create(dados: NovaPessoa): Promise<Pessoa> {
     return resultado.rows[0];
 }
 
+
 export async function deactivate(id: number): Promise<boolean> {
     const resultado = await pool.query(
         `
@@ -24,6 +25,7 @@ export async function deactivate(id: number): Promise<boolean> {
     )
     return resultado.rowCount !== null && resultado.rowCount > 0;
 }
+
 
 export async function update(dados: Pessoa): Promise<Pessoa | null>
 {
@@ -39,6 +41,7 @@ export async function update(dados: Pessoa): Promise<Pessoa | null>
     return resultado.rows[0] ?? null;
 }
 
+
 export async function read(id: number): Promise<Pessoa | null> {
     const resultado = await pool.query(
         `
@@ -49,4 +52,14 @@ export async function read(id: number): Promise<Pessoa | null> {
     )
 
     return resultado.rows[0] ?? null;
+}
+
+export async function readAll(): Promise<Pessoa[]> {
+    const resultado = await pool.query(
+        `
+        SELECT * FROM pessoa
+        `
+    )
+
+    return resultado.rows;
 }

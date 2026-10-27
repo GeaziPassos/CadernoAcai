@@ -1,30 +1,45 @@
-interface Usuario {
+interface Pessoa {
     id: number;
     nome: string;
-    ativo: boolean;
 }
 
-async function carregarUsuarios(): Promise<void> {
-    const resposta = await fetch("http://localhost:3006/pessoa");
+async function readAll(): Promise<void> {
+    try {
+        const resposta = await fetch("http://localhost:3006/pessoas");
 
-    const usuarios: Usuario[] = await resposta.json();
+        if (!resposta.ok) {
+            throw new Error("Erro ao buscar pessoas");
+        }
 
-    const tabela = document.getElementById("tabela");
+        const pessoas: Pessoa[] = await resposta.json();
 
-    if (!tabela) return;
+        const tabela = document.getElementById("tabela");
 
-    tabela.innerHTML = "";
+        if (!tabela) {
+            console.error("Tabela não encontrada");
+            return;
+        }
 
-    usuarios.forEach((usuario) => {
-        const linha = document.createElement("tr");
+        tabela.innerHTML = "";
 
-        linha.innerHTML = `
-            <td>${usuario.id}</td>
-            <td>${usuario.nome}</td>
-        `;
+        pessoas.forEach((pessoa) => {
+            const linha = document.createElement("tr");
 
-        tabela.appendChild(linha);
-    });
+            const colunaId = document.createElement("td");
+            colunaId.textContent = String(pessoa.id);
+
+            const colunaNome = document.createElement("td");
+            colunaNome.textContent = pessoa.nome;
+
+            linha.appendChild(colunaId);
+            linha.appendChild(colunaNome);
+
+            tabela.appendChild(linha);
+        });
+
+    } catch (error) {
+        console.error("Erro ao listar pessoas:", error);
+    }
 }
 
-carregarUsuarios();
+readAll();

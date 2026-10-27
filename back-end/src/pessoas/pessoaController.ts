@@ -24,3 +24,17 @@ export async function create(req: Request, res: Response) {
         });
     }
 }
+
+export async function readAll(req: Request, res: Response) {
+    try{
+        const pessoas = await pessoaRepository.readAll();
+
+        return res.status(200).json(pessoas);
+    }catch (error) {
+        console.log("Erro ao listar pessoa", error);
+
+        return res.status(500).json({
+            mensagem: "Erro ao listar pessoas"
+        });
+    };
+}

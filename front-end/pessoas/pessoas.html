@@ -50,9 +50,21 @@
             <div class="titulo-pagina">
                 <h2>Pessoas</h2>
 
-                <button class="btn-nova">
+                <button id="btn-cadastrar">
                     + Nova pessoa
                 </button>
+
+                <dialog id="modal-cadastro">
+                    <h2>Cadastrar pessoa</h2>
+
+                    <form id="form-cadastro">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" required />
+
+                        <button type="submit">Salvar</button>
+                        <button type="button" id="btn-cancelar">Cancelar</button>
+                    </form>
+                </dialog>
             </div>
 
             <div class="painel">
@@ -107,4 +119,5 @@
 </body>
 
 <script type="module" src="pessoas.ts"></script>
+<script type="module" src="pessoas2.ts"></script>
 </html>

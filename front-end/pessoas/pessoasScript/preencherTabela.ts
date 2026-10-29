@@ -51,4 +51,4 @@ async function readAll(): Promise<void> {
     }
 }
 
-readAll();
+export default readAll();

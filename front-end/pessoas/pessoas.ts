@@ -1,6 +1,7 @@
 interface Pessoa {
     id: number;
     nome: string;
+    status: boolean;
 }
 
 async function readAll(): Promise<void> {
@@ -24,15 +25,23 @@ async function readAll(): Promise<void> {
 
         pessoas.forEach((pessoa) => {
             const linha = document.createElement("tr");
+            
+            const colunaNome = document.createElement("td");
+            colunaNome.textContent = pessoa.nome;
 
             const colunaId = document.createElement("td");
             colunaId.textContent = String(pessoa.id);
 
-            const colunaNome = document.createElement("td");
-            colunaNome.textContent = pessoa.nome;
+            const colunaStatus = document.createElement("td");
+            if(pessoa.status){
+                colunaStatus.textContent = "inativo"
+            }else{
+                colunaStatus.textContent = "ativo"
+            }
 
-            linha.appendChild(colunaId);
             linha.appendChild(colunaNome);
+            linha.appendChild(colunaId);
+            linha.appendChild(colunaStatus);
 
             tabela.appendChild(linha);
         });

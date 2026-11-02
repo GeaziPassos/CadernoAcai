@@ -124,7 +124,7 @@ nav a.ativo {
     font-size: 21px;
 }
 
-.btn-nova {
+#btn-cadastrar {
     background-color: #92009c;
     color: #ffffff;
     border: none;
@@ -157,7 +157,7 @@ nav a.ativo {
 
 .painel-topo h3 {
     font-size: 16px;
-    margin-bottom: 9px;
+    margin-bottom: 5px;
 }
 
 .painel-topo p {

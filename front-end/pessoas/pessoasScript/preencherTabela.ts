@@ -1,7 +1,7 @@
 interface Pessoa {
     id: number;
     nome: string;
-    status: boolean;
+    ativo: boolean;
 }
 
 async function readAll(): Promise<void> {
@@ -33,10 +33,10 @@ async function readAll(): Promise<void> {
             colunaId.textContent = String(pessoa.id);
 
             const colunaStatus = document.createElement("td");
-            if(pessoa.status){
-                colunaStatus.textContent = "inativo"
-            }else{
+            if(pessoa.ativo){
                 colunaStatus.textContent = "ativo"
+            }else{
+                colunaStatus.textContent = "inativo"
             }
 
             linha.appendChild(colunaNome);

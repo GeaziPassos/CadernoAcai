@@ -1,0 +1,36 @@
+/* Zerar margens, paddings e definir o box-sizing correto */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Ajustes básicos para o corpo da página */
+body {
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+    font-family: sans-serif; /* Mude para a fonte do seu projeto */
+}
+
+/* Remover estilos padrão de listas */
+ul, ol {
+    list-style: none;
+}
+
+/* Resetar links para que não herdem a cor azul e o sublinhado padrão */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Garantir que imagens e elementos de mídia sejam responsivos */
+img, picture, video, canvas, svg {
+    max-width: 100%;
+    display: block;
+}
+
+/* Herdando fontes para elementos de formulário */
+input, button, textarea, select {
+    font: inherit;
+}

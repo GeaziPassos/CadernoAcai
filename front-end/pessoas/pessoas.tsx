@@ -51,99 +51,100 @@ function Pessoa() {
     }, []);
     
     return(
-        <main className="conteudo">
+        <body>
 
+            <Sidebar/>
+            
+            <main className="conteudo">
                 <Topbar/>
-                <Sidebar/>
 
-            <section className="pagina">
+                <section className="pagina">        
 
-                <div className="titulo-pagina">
-                    <h2>Pessoas</h2>
+                    <div className="titulo-pagina">
+                        <h2>Pessoas</h2>
 
-                    <button onClick={()=> setModalAberto(true)}>
-                        + Nova Pessoa
-                    </button>
+                        <button onClick={()=> setModalAberto(true)} className="btn-cadastrar">
+                            + Nova Pessoa
+                        </button>
 
-                    {modalAberto && (
-                        <dialog open>
+                        {modalAberto && (
+                            <dialog open>
 
-                            <h2>Cadastrar Pessoa</h2>
+                                <h2>Cadastrar Pessoa</h2>
 
-                            <form onSubmit={cadastrarPessoa}>
+                                <form onSubmit={cadastrarPessoa}>
 
-                                <label htmlFor="nome">Nome:</label>
+                                    <label htmlFor="nome">Nome:</label>
 
-                                <input
-                                type="text"
-                                id="nome"
-                                value={nome}
-                                onChange={(e) => setNome(e.target.value)}
-                                required
-                                />
+                                    <input
+                                    type="text"
+                                    id="nome"
+                                    value={nome}
+                                    onChange={(e) => setNome(e.target.value)}
+                                    required
+                                    />
 
-                                <button type="submit">
-                                    Salvar
-                                </button>
+                                    <button type="submit">
+                                        Salvar
+                                    </button>
 
-                                <button type="button" onClick={() => setModalAberto(false)}>
-                                    Cancelar
-                                </button>
+                                    <button type="button" onClick={() => setModalAberto(false)}>
+                                        Cancelar
+                                    </button>
 
-                            </form>
+                                </form>
 
-                        </dialog>
-                    )}
-                </div>
-
-                <div className="painel">
-
-                    <div className="painel-topo">
-                            <h3>Equipe</h3>
+                            </dialog>
+                        )}
                     </div>
 
-                    <input
-                    type="search" 
-                    className="barra-pesquisa"
-                    placeholder="Buscar por nome..."
-                    />
+                    <div className="painel">
 
-                    <div className="tabela-container">
+                        <div className="painel-topo">
+                                <h3>Equipe</h3>
+                        </div>
 
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Dupla</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
+                        <input
+                        type="search" 
+                        className="barra-pesquisa"
+                        placeholder="Buscar por nome..."
+                        />
 
-                            <tbody>
-                                {pessoas.map((pessoa) => (
-                                    <tr key={pessoa.id}>
+                        <div className="tabela-container">
 
-                                        <td>{pessoa.nome}</td>
-
-                                        <td>{/*Dupla futuramente*/}</td>
-
-                                        <td>{pessoa.ativo ? "Ativo" : "Inativo"}</td>
-                                        
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Dupla</th>
+                                        <th>Status</th>
                                     </tr>
-                                ))
+                                </thead>
 
-                                }
-                            </tbody>
+                                <tbody>
+                                    {pessoas.map((pessoa) => (
+                                        <tr key={pessoa.id}>
 
-                        </table>
+                                            <td>{pessoa.nome}</td>
+
+                                            <td>{/*Dupla futuramente*/}</td>
+
+                                            <td>{pessoa.ativo ? "Ativo" : "Inativo"}</td>
+                                            
+                                        </tr>
+                                    ))}
+                                </tbody>
+
+                            </table>
+
+                        </div>
 
                     </div>
 
-                </div>
+                </section>
 
-            </section>
-
-        </main>
+            </main>
+        </body>
     )
 }
 

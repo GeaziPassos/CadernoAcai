@@ -124,7 +124,7 @@ nav a.ativo {
     font-size: 21px;
 }
 
-#btn-cadastrar {
+.btn-cadastrar {
     background-color: #92009c;
     color: #ffffff;
     border: none;

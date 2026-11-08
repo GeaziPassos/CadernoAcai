@@ -23,7 +23,7 @@ function Sidebar() {
                     </a>
                     
                     <a href="/maquinas">
-                        <span className="icone-sidebar"></span>
+                        <span className="icone-sidebar">⚙️</span>
                         Máquinas
                     </a>
                 </nav>

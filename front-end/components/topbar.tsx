@@ -3,7 +3,7 @@ function Topbar() {
 
         <header className="topbar">
             <strong>Caderno<span>Açaí</span></strong>
-            <span className="pagina">· Pessoas</span>
+            <span className="breadcrumb">· Pessoas</span>
         </header>
         
     );

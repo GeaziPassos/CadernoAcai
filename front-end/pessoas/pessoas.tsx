@@ -23,6 +23,7 @@ function Pessoa() {
     const [nome, setNome] = useState("");
     const [pessoas, setPessoas] = useState<Pessoa[]>([]);
     const [filtroStatus, setFiltroStatus] = useState("ativos");
+    const [filtroNome, setFiltroNome] = useState("")
     
     async function carregarPessoas(){
         const resposta = await fetch("http://localhost:3006/pessoas")
@@ -51,7 +52,7 @@ function Pessoa() {
         carregarPessoas()
     }, []);
     
-    const pessoasFiltradas = pessoas.filter((pessoa) => {
+    const pessoasFiltradasStatus = pessoas.filter((pessoa) => {
       if (filtroStatus === "ativos"){
         return pessoa.ativo === true;
       }  
@@ -63,8 +64,16 @@ function Pessoa() {
       return true;
     })
 
+const pessoasFiltradasNome = pessoasFiltradasStatus.filter((pessoa) => {
+    if(pessoa.nome.toLowerCase().includes(filtroNome.toLowerCase())){
+        return true;
+    }
+
+    return false
+})
+
     return(
-        <body>
+        <>
 
             <Sidebar/>
             
@@ -121,6 +130,8 @@ function Pessoa() {
                         type="search" 
                         className="barra-pesquisa"
                         placeholder="Buscar por nome..."
+                        value = {filtroNome}
+                        onChange={(e) => setFiltroNome(e.target.value)}
                         />
 
                         <div className="tabela-container">
@@ -146,7 +157,7 @@ function Pessoa() {
                                 </thead>
 
                                 <tbody>
-                                    {pessoasFiltradas.map((pessoa) => (
+                                    {pessoasFiltradasNome.map((pessoa) => (
                                         <tr key={pessoa.id}>
 
                                             <td>{pessoa.nome}</td>
@@ -168,7 +179,7 @@ function Pessoa() {
                 </section>
 
             </main>
-        </body>
+        </>
     )
 }
 

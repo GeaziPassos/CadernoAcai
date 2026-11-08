@@ -22,6 +22,7 @@ function Pessoa() {
     const [modalAberto, setModalAberto] = useState(false);
     const [nome, setNome] = useState("");
     const [pessoas, setPessoas] = useState<Pessoa[]>([]);
+    const [filtroStatus, setFiltroStatus] = useState("ativos");
     
     async function carregarPessoas(){
         const resposta = await fetch("http://localhost:3006/pessoas")
@@ -50,6 +51,18 @@ function Pessoa() {
         carregarPessoas()
     }, []);
     
+    const pessoasFiltradas = pessoas.filter((pessoa) => {
+      if (filtroStatus === "ativos"){
+        return pessoa.ativo === true;
+      }  
+
+      if(filtroStatus === "inativos"){
+        return pessoa.ativo === false;
+      }
+
+      return true;
+    })
+
     return(
         <body>
 
@@ -117,12 +130,23 @@ function Pessoa() {
                                     <tr>
                                         <th>Nome</th>
                                         <th>Dupla</th>
-                                        <th>Status</th>
+                                        <th>
+                                            Status
+                                            <select
+                                                value={filtroStatus}
+                                                onChange={(e) => setFiltroStatus(e.target.value)}
+                                            >
+                                                <option value="todos">Todos</option> 
+                                                <option value="ativos">Ativos</option> 
+                                                <option value="inativos">Inativos</option> 
+
+                                            </select>
+                                        </th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    {pessoas.map((pessoa) => (
+                                    {pessoasFiltradas.map((pessoa) => (
                                         <tr key={pessoa.id}>
 
                                             <td>{pessoa.nome}</td>

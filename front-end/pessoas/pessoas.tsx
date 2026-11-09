@@ -74,7 +74,6 @@ const pessoasFiltradasNome = pessoasFiltradasStatus.filter((pessoa) => {
 
     return(
         <>
-
             <Sidebar/>
             
             <main className="conteudo">

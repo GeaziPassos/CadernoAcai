@@ -2,8 +2,8 @@ import Sidebar from "./../components/sidebar.js"
 import Topbar from "./../components/topbar.js"
 
 import {useState} from "react";
-import { useEffect } from "react";
-import "./site.css";
+import {useEffect} from "react";
+import "../pessoas/site.css"
 
 interface Maquina{
     id: number;
@@ -18,11 +18,11 @@ function Maquinas() {
     const [tag, setTag] = useState("");
     const [maquinas, setMaquinas] = useState<Maquina[]>([]);
     const [filtroStatus, setFiltroStatus] = useState("ativos");
-    const [filtroLinha, setFiltroLinha] = useState("")
     const [filtroTag, setFiltroTag] = useState("")
-    
+    const [filtroLinha, setFiltroLinha] = useState<number | undefined>()
+
     async function carregarMaquinas(){
-        const resposta = await fetch("http://localhost:3006/pessoas")
+        const resposta = await fetch("http://localhost:3006/maquinas")
 
         const dados: Maquina[] = await resposta.json();
 
@@ -49,25 +49,40 @@ function Maquinas() {
         carregarMaquinas()
     }, []);
     
-    const pessoasFiltradasStatus = maquinas.filter((maquina) => {
-      if (filtroStatus === "ativos"){
-        return maquina.ativo === true;
-      }  
+    const maquinasFiltradasStatus = maquinas.filter((maquina) => {
+        if (filtroStatus === "ativos"){
+            return maquina.ativo === true;
+        }  
 
-      if(filtroStatus === "inativos"){
-        return maquina.ativo === false;
-      }
+        if(filtroStatus === "inativos"){
+            return maquina.ativo === false;
+        }
 
-      return true;
+        return true;
     })
 
-const pessoasFiltradasNome = pessoasFiltradasStatus.filter((maquina) => {
-    if(maquina.tag.toLowerCase().includes(filtroTag.toLowerCase())){
-        return true;
-    }
+    const maquinasFiltradasTag = maquinasFiltradasStatus.filter((maquina) => {
+        if(maquina.tag.toLowerCase().includes(filtroTag.toLowerCase())){
+            return true;
+        }
 
-    return false
-})
+        return false
+    })
+
+    const maquinasFiltradasLinha = maquinasFiltradasTag.filter((maquina) => {
+        if(filtroLinha === 0){
+            setFiltroLinha(undefined);
+        }
+
+        if(filtroLinha === undefined){
+            return true
+        }
+
+        if(maquina.linha === filtroLinha){
+            return true;
+        }
+        
+    })
 
     return(
         <>
@@ -79,7 +94,7 @@ const pessoasFiltradasNome = pessoasFiltradasStatus.filter((maquina) => {
                 <section className="pagina">        
 
                     <div className="titulo-pagina">
-                        <h2>Maquinas</h2>
+                        <h2>Máquinas</h2>
 
                         <button onClick={()=> setModalAberto(true)} className="btn-cadastrar">
                             + Nova Máquina
@@ -95,18 +110,20 @@ const pessoasFiltradasNome = pessoasFiltradasStatus.filter((maquina) => {
                                     <label htmlFor="Linha">Linha:</label>
 
                                     <input
-                                    type="text"
+                                    type="number"
                                     id="linha"
                                     value={linha}
                                     onChange={(e) => setLinha(e.target.value)}
                                     required
                                     />
 
+                                    <label htmlFor="Tag">Tag:</label>
+                                    
                                     <input
                                     type="text"
                                     id="tag"
                                     value={tag}
-                                    onChange={(e) => setLinha(e.target.value)}
+                                    onChange={(e) => setTag(e.target.value)}
                                     required
                                     />
 
@@ -130,21 +147,33 @@ const pessoasFiltradasNome = pessoasFiltradasStatus.filter((maquina) => {
                                 <h3>Equipe</h3>
                         </div>
 
-                        <input
-                        type="search" 
-                        className="barra-pesquisa"
-                        placeholder="Buscar por nome..."
-                        value = {filtroNome}
-                        onChange={(e) => setFiltroNome(e.target.value)}
-                        />
-
                         <div className="tabela-container">
 
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Nome</th>
-                                        <th>Dupla</th>
+                                        <th>
+                                            Linha
+                                            <input
+                                                type="search"
+                                                className="barra-pesquisa"
+                                                placeholder="Buscar por linha..."
+                                                value = {filtroLinha}
+                                                onChange={(e) => setFiltroLinha(Number(e.target.value))}
+                                            />
+                                        </th>
+                                        
+                                        <th>
+                                            TAG
+                                            <input
+                                                type="search"
+                                                className="barra-pesquisa"
+                                                placeholder="Buscar por tag..."
+                                                value = {filtroTag}
+                                                onChange={(e) => setFiltroTag(e.target.value)}
+                                             />
+                                        </th>
+                                        
                                         <th>
                                             Status
                                             <select
@@ -161,14 +190,14 @@ const pessoasFiltradasNome = pessoasFiltradasStatus.filter((maquina) => {
                                 </thead>
 
                                 <tbody>
-                                    {pessoasFiltradasNome.map((pessoa) => (
-                                        <tr key={pessoa.id}>
+                                    {maquinasFiltradasLinha.map((maquina) => (
+                                        <tr key={maquina.id}>
 
-                                            <td>{pessoa.nome}</td>
+                                            <td>{maquina.linha}</td>
 
-                                            <td>{/*Dupla futuramente*/}</td>
+                                            <td>{maquina.tag}</td>
 
-                                            <td>{pessoa.ativo ? "Ativo" : "Inativo"}</td>
+                                            <td>{maquina.ativo ? "Ativo" : "Inativo"}</td>
                                             
                                         </tr>
                                     ))}
@@ -187,4 +216,4 @@ const pessoasFiltradasNome = pessoasFiltradasStatus.filter((maquina) => {
     )
 }
 
-export default Pessoa;
+export default Maquinas;

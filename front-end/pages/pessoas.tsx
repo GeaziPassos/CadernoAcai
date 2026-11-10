@@ -1,9 +1,9 @@
-import Sidebar from "./../components/sidebar.js"
-import Topbar from "./../components/topbar.js"
+import Sidebar from "../components/sidebar.js"
+import Topbar from "../components/topbar.js"
 
 import {useState} from "react";
-import { useEffect } from "react";
-import "./site.css";
+import {useEffect} from "react";
+import "../pessoas/site.css";
 
 interface Pessoa{
     id: number;
@@ -18,7 +18,7 @@ interface Dupla{
     pessoa_id_2: number;
 }
 
-function Pessoa() {
+function Pessoas() {
     const [modalAberto, setModalAberto] = useState(false);
     const [nome, setNome] = useState("");
     const [pessoas, setPessoas] = useState<Pessoa[]>([]);
@@ -53,21 +53,21 @@ function Pessoa() {
     }, []);
     
     const pessoasFiltradasStatus = pessoas.filter((pessoa) => {
-      if (filtroStatus === "ativos"){
-        return pessoa.ativo === true;
-      }  
+        if (filtroStatus === "ativos"){
+            return pessoa.ativo === true;
+        }  
 
-      if(filtroStatus === "inativos"){
-        return pessoa.ativo === false;
-      }
+        if(filtroStatus === "inativos"){
+            return pessoa.ativo === false;
+        }
 
-      return true;
+        return true;
     })
 
-const pessoasFiltradasNome = pessoasFiltradasStatus.filter((pessoa) => {
-    if(pessoa.nome.toLowerCase().includes(filtroNome.toLowerCase())){
-        return true;
-    }
+    const pessoasFiltradasNome = pessoasFiltradasStatus.filter((pessoa) => {
+        if(pessoa.nome.toLowerCase().includes(filtroNome.toLowerCase())){
+            return true;
+        }
 
     return false
 })
@@ -182,4 +182,4 @@ const pessoasFiltradasNome = pessoasFiltradasStatus.filter((pessoa) => {
     )
 }
 
-export default Pessoa;
+export default Pessoas;

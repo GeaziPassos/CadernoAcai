@@ -1,9 +1,11 @@
 
-import Pessoas from "./pessoas/pessoas.js";
+import Pessoas from "./pages/pessoas.js";
+import Maquinas from "./pages/maquinas.js";
 
 function App() {
     return (
-        <Pessoas />
+        <Maquinas />
+        //<Pessoas />
     );
 }
 

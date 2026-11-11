@@ -72,8 +72,102 @@ function Produtos(){
                 <main className="conteudo">
                     <Topbar />
 
-                </main>
+                    <section className="pagina">
+
+                        <div className="titulo-pagina">
+                            <h2>Produtos</h2>
+                            
+                            <button onClick={() => setModalAberto(true)} className="btn-cadastrar">
+                                + Novo Produto
+                            </button>
+
+                            {modalAberto &&(
+                                <dialog open>
+
+                                    <h2>Cadastrar Produto</h2>
+
+                                    <form onSubmit={cadastrarProduto}>
+                                        
+                                        <label htmlFor="Nome">Nome:</label>
+
+                                        <input
+                                        type="text"
+                                        id="nome"
+                                        value={nome}
+                                        onChange={(e) => setNome(e.target.value)}
+                                        required
+                                        />
+
+                                        <button type="submit">
+                                            Salvar
+                                        </button>
+
+                                        <button type="button" onClickCapture={() => setModalAberto(false)}>
+                                            Cancelar
+                                        </button>
+                                    </form >
+                                
+                                </dialog>
+
+                            )}
+                        </div>
+
+                        <div className="painel">
+
+                            <input type="search"
+                            className="barra-pesquisa"
+                            placeholder="Buscar por nome..."
+                            value={filtroNome}
+                            onChange={(e) => setFiltroNome(e.target.value)}
+                            />
+
+                            <div className="tabela-container">
+                        
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Nome
+                                        </th>
+
+                                        <th>
+                                            Status
+                                            <select
+                                            value={filtroStatus}
+                                            onChange={(e) => setFiltroStatus(e.target.value)}
+                                            >
+                                                <option value="todos">Todos</option>
+                                                <option value="ativos">Ativos</option>
+                                                <option value="inativos">Inatiovos</option>
+                                            </select>
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {produtosFiltradoNome.map((produto) => (
+                                        <tr key={produto.id}>
+
+                                            <td>{produto.nome}</td>
+
+                                            <td>{produto.ativo}</td>
+                                        
+                                        </tr>
+                                    ))}
+                                </tbody>
+
+                            </table>
+                    
+                        </div>
+
+                    </div > 
+                        
+                </section>
+
+            </main>
         </>
     )
 
 }
+
+export default Produtos;

@@ -19,7 +19,7 @@ function Produtos(){
     const [filtroNome, setFiltroNome] = useState("")
 
     async function carregarProdutos(){
-        const resposta = await fetch("localhost:3006/produtos");
+        const resposta = await fetch("http://localhost:3006/produtos");
         
         const dados: Produto[] = await resposta.json();
 
@@ -29,7 +29,7 @@ function Produtos(){
     async function cadastrarProduto(event: React.FormEvent<HTMLFormElement>){
         event.preventDefault();
 
-        const reposta = await fetch("localhost:3006/produtos", {
+        const reposta = await fetch("http://localhost:3006/produtos", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({nome: nome})

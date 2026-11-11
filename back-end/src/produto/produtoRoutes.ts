@@ -4,6 +4,6 @@ import * as produtoController from "./produtoController.js";
 const router = Router();
 
 router.post("/", produtoController.create);
-router.post("/", produtoController.readAll);
+router.get("/", produtoController.readAll);
 
 export default router;

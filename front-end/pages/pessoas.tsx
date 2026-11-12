@@ -24,6 +24,7 @@ function Pessoas() {
     const [pessoas, setPessoas] = useState<Pessoa[]>([]);
     const [filtroStatus, setFiltroStatus] = useState("ativos");
     const [filtroNome, setFiltroNome] = useState("")
+    const [alterarStatusDe, setAlterarStatusDe] = useState<number>()
     
     async function carregarPessoas(){
         const resposta = await fetch("http://localhost:3006/pessoas")
@@ -70,7 +71,25 @@ function Pessoas() {
         }
 
     return false
-})
+    })
+
+    async function alterarStatusPessoa(pessoa: Pessoa) {
+        if(pessoa.ativo){
+            await fetch("http://localhost:3006/pessoas/desativar", {
+                method: "PATCH",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({id: pessoa.id})
+            });
+        }else{
+            await fetch("http://localhost:3006/pessoas/reativar", {
+                method: "PATCH",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({id: pessoa.id})
+            });
+        }
+
+        await carregarPessoas;
+    }
 
     return(
         <>
@@ -164,6 +183,10 @@ function Pessoas() {
                                             <td>{/*Dupla futuramente*/}</td>
 
                                             <td>{pessoa.ativo ? "Ativo" : "Inativo"}</td>
+
+                                            <td>
+                                                <button onClick={() => alterarStatusPessoa(pessoa)}>{pessoa.ativo ? "Desativar" : "Ativar"}</button>
+                                            </td>
                                             
                                         </tr>
                                     ))}

@@ -38,3 +38,21 @@ export async function readAll(req: Request, res: Response) {
         });
     };
 }
+
+export async function deactivate(req: Request, res: Response) {
+
+    const id = Number(req.body.id);
+
+    const pessoa = await pessoaRepository.deactivate(id)
+
+    return res.status(200).json(pessoa);
+}
+
+export async function reactivate(req: Request, res: Response) {
+
+    const id = Number(req.body.id);
+
+    const pessoa = await pessoaRepository.reactivate(id);
+
+    return res.status(200).json(pessoa);
+}

@@ -26,6 +26,18 @@ export async function deactivate(id: number): Promise<boolean> {
     return resultado.rowCount !== null && resultado.rowCount > 0;
 }
 
+export async function reactivate(id: number): Promise<boolean> {
+    const resultado = await pool.query(
+        `
+        UPDATE pessoa
+        SET ativo = true
+        WHERE id = $1
+        `,
+        [id]
+    )
+    return resultado.rowCount !== null && resultado.rowCount > 0;
+}
+
 
 export async function update(dados: Pessoa): Promise<Pessoa | null>
 {

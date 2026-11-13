@@ -88,7 +88,7 @@ function Pessoas() {
             });
         }
 
-        await carregarPessoas;
+        await carregarPessoas();
     }
 
     return(

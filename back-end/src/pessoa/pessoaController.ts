@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import * as pessoaRepository from "./pessoaRepository.js";
 
+import type { Pessoa } from "./pessoaTypes.js"
+
 export async function create(req: Request, res: Response) {
     try {
         const { nome } = req.body;
@@ -23,6 +25,21 @@ export async function create(req: Request, res: Response) {
             mensagem: "Erro interno ao cadastrar pessoa."
         });
     }
+}
+
+export async function update(req: Request, res: Response) {
+
+    const pessoa: Pessoa = {
+        id: Number(req.body.pessoa.id),
+        nome: String(req.body.pessoa.nome),
+        ativo: Boolean(req.body.pessoa.ativo)
+    }
+
+    //Resultado é o que o Repository retorna apos a funcao ser chamada (se deu certo ou nao)
+    const resultado = await pessoaRepository.update(pessoa);
+
+    //é o resultado que vai retornar para requisicao que foi feita no front end
+    return await res.status(200).json(resultado)
 }
 
 export async function readAll(req: Request, res: Response) {

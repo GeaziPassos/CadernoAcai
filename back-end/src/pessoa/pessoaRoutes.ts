@@ -7,5 +7,6 @@ router.post("/", pessoaController.create);
 router.get("/", pessoaController.readAll)
 router.patch("/desativar", pessoaController.deactivate)
 router.patch("/reativar", pessoaController.reactivate);
+router.put("/update", pessoaController.update);
 
 export default router;

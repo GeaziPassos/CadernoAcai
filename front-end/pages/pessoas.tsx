@@ -25,6 +25,8 @@ function Pessoas() {
     const [filtroStatus, setFiltroStatus] = useState("ativos");
     const [filtroNome, setFiltroNome] = useState("")
     const [alterarStatusDe, setAlterarStatusDe] = useState<number>()
+    const [modalAbertoEditar, setModalAbertoEditar] = useState(false);
+    const [pessoa, setPessoa] = useState<Pessoa>();
     
     async function carregarPessoas(){
         const resposta = await fetch("http://localhost:3006/pessoas")
@@ -47,6 +49,20 @@ function Pessoas() {
 
         setNome("")
         setModalAberto(false);
+    }
+
+    async function editarPessoa(event: React.FormEvent<HTMLFormElement>, pessoa: Pessoa) {
+
+        event.preventDefault();
+        const resposta = await fetch("http://localhost:3006/pessoas/update", {
+            method: "PUT",
+            headers: {"Content-type": "application/json"},
+            body: JSON.stringify({pessoa: pessoa})
+        })
+        console.log("estou aquio iaaaaaa")
+        
+        setPessoa(undefined);
+        await carregarPessoas();
     }
 
     useEffect(() => {
@@ -185,14 +201,53 @@ function Pessoas() {
                                             <td>{pessoa.ativo ? "Ativo" : "Inativo"}</td>
 
                                             <td>
-                                                <button onClick={() => alterarStatusPessoa(pessoa)}>{pessoa.ativo ? "Desativar" : "Ativar"}</button>
+                                                <button 
+                                                    onClick={() => alterarStatusPessoa(pessoa)}>
+                                                    {pessoa.ativo ? "Desativar" : "Ativar"}
+                                                </button>
                                             </td>
                                             
+                                            <td>
+                                                <button onClick={() => setPessoa(pessoa)}>
+                                                Editar
+                                                </button>
+
+                                            </td>
+
                                         </tr>
                                     ))}
                                 </tbody>
 
                             </table>
+
+                                    {pessoa && (
+                                        <dialog open>
+
+                                            <h2>Editar Pessoa</h2>
+
+                                            <form onSubmit={(event) => editarPessoa(event, pessoa)}>
+
+                                                <label htmlFor="Nome">Nome:</label>
+
+                                                <input
+                                                type="text" 
+                                                id="nomeEditar"
+                                                value={pessoa.nome}
+                                                onChange={(e) => setPessoa({
+                                                    ...pessoa,
+                                                    nome: e.target.value
+                                                })}
+                                                required
+                                                />
+
+                                                <button type="submit">Salvar</button>
+
+                                                <button type="button" onClick={() => setPessoa(undefined)}>Cancelar</button>
+                                           
+                                            </form>
+
+                                        </dialog>
+                                    )}
 
                         </div>
 

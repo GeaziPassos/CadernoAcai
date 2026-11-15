@@ -121,7 +121,7 @@ function Produtos(){
 
                                     <form onSubmit={cadastrarProduto}>
                                         
-                                        <label htmlFor="Nome">Nome:</label>
+                                        <label htmlFor="nome">Nome:</label>
 
                                         <input
                                         type="text"
@@ -199,12 +199,13 @@ function Produtos(){
 
                             </table>
 
-                            {produto &&
+                            {produto && (
+
                                 <dialog open>
 
                                     <form onSubmit={(event) => editarProduto(event, produto)}>
 
-                                        <label htmlFor="Nome">Nome:</label>
+                                        <label htmlFor="nomeEditar">Nome:</label>
                                     
                                         <input
                                         type="text"
@@ -223,7 +224,7 @@ function Produtos(){
                                     </form>
 
                                 </dialog>
-                            }
+                            )}
                     
                         </div>
 

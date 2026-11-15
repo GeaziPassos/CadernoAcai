@@ -227,7 +227,7 @@ function Pessoas() {
 
                                             <form onSubmit={(event) => editarPessoa(event, pessoa)}>
 
-                                                <label htmlFor="Nome">Nome:</label>
+                                                <label htmlFor="nomeEditar">Nome:</label>
 
                                                 <input
                                                 type="text" 

@@ -16,3 +16,20 @@ export async function readAll(req: Request, res: Response) {
 
     return res.json(produtos);
 }
+
+export async function deactivate(req: Request, res: Response) {
+    const id = Number(req.body.id);
+
+    const alterarStatus = produtoRepository.deactivate(id);
+    
+    return res.json(alterarStatus);
+}
+
+export async function reactivate(req: Request, res: Response) {
+    const id = Number(req.body.id);
+
+    const alterarStatus = produtoRepository.reactivate(id);
+
+    return res.json(alterarStatus);
+
+}

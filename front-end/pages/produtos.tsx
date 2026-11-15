@@ -16,7 +16,8 @@ function Produtos(){
     const [nome, setNome] = useState("");
     const [produtos, setProdutos] = useState<Produto[]>([]);
     const [filtroStatus, setFiltroStatus] = useState("ativo");
-    const [filtroNome, setFiltroNome] = useState("")
+    const [filtroNome, setFiltroNome] = useState("");
+    const [produto, setProduto] = useState<Produto>();
 
     async function carregarProdutos(){
         const resposta = await fetch("http://localhost:3006/produtos");
@@ -41,30 +42,57 @@ function Produtos(){
         setModalAberto(false);
     }   
 
-    useEffect(() => {
-        carregarProdutos();
-    }, []);
-
+    
     const produtosFiltradosStatus = produtos.filter((produto) => {
         if(filtroStatus === "ativos"){
             return produto.ativo === true;
         }
-
+        
         if(filtroStatus === "inativos"){
             return produto.ativo === false;
         }
-
+        
         return true;
     })
-
+    
     const produtosFiltradoNome = produtosFiltradosStatus.filter((produto) => {
         if(produto.nome.toLowerCase().includes(filtroNome.toLowerCase())){
             return produto;
         }
-
+        
         return false;
     })
+    
+    async function alterarStatusProduto(produto: Produto) {
+        if(produto.ativo) {
+            const alterarStatus = await fetch("http://localhost:3006/produtos/deactivate", {
+                method: "PATCH",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({id: produto.id})
+            })
+        }else{
+            
+            const alterarStatus = await fetch("http://localhost:3006/produtos/reactivate", {
+                method: "PATCH",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({id: produto.id})
+            })
+        }
+        
+        await carregarProdutos();
 
+        console.log("aqui")
+    }
+
+    async function editarProduto(event: React.FormEvent<HTMLFormElement> ,produto: Produto) {
+        event.preventDefault;
+        const resposta = await fetch("http://localhost:3006/produtos/update")
+    }
+  
+    useEffect(() => {
+        carregarProdutos();
+    }, []);
+    
     return(
         <>
             <Sidebar />
@@ -150,13 +178,47 @@ function Produtos(){
 
                                             <td>{produto.nome}</td>
 
-                                            <td>{produto.ativo}</td>
+                                            <td>{produto.ativo ? "Ativo" : "Inativo"}</td>
                                         
+                                            <td>
+                                                <button onClick={() => alterarStatusProduto(produto)}>{produto.ativo ? "Desativar" : "Ativar"}</button>
+                                            </td>
+
+                                            <td>
+                                                <button onClick={() => setProduto(produto)}>Editar</button>
+                                            </td>
+
                                         </tr>
                                     ))}
                                 </tbody>
 
                             </table>
+
+                            {produto &&
+                                <dialog open>
+
+                                    <form onSubmit={(event) => editarProduto(event, produto)}>
+
+                                        <label htmlFor="Nome">Nome:</label>
+                                    
+                                        <input
+                                        type="text"
+                                        id="nomeEditar"
+                                        value={produto.nome}
+                                        onChange={(e) => setProduto({
+                                            ...produto,
+                                            nome: e.target.value
+                                        })}
+                                        required
+                                        />
+                                        
+                                        <button type="submit">Salvar</button>
+
+                                        <button type="button" onClick={() => setProduto(undefined)}>Cancelar</button>
+                                    </form>
+
+                                </dialog>
+                            }
                     
                         </div>
 

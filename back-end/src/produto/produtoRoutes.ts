@@ -5,5 +5,7 @@ const router = Router();
 
 router.post("/", produtoController.create);
 router.get("/", produtoController.readAll);
+router.patch("/deactivate", produtoController.deactivate);
+router.patch("/reactivate", produtoController.reactivate);
 
 export default router;

@@ -86,7 +86,12 @@ function Produtos(){
 
     async function editarProduto(event: React.FormEvent<HTMLFormElement> ,produto: Produto) {
         event.preventDefault;
-        const resposta = await fetch("http://localhost:3006/produtos/update")
+
+        const resposta = await fetch("http://localhost:3006/produtos/update", {
+            method: "UPDATE",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({dados: produto})
+        })
     }
   
     useEffect(() => {

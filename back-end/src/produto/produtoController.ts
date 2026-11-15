@@ -32,4 +32,15 @@ export async function reactivate(req: Request, res: Response) {
 
     return res.json(alterarStatus);
 
+
+}
+
+export async function update(req: Request, res: Response) {
+    const dados = {
+        id: Number(req.body.id),
+        nome: String(req.body.nome),
+        ativo: Boolean(req.body.ativo)
+    }
+
+    return res.json(produtoRepository.update(dados))
 }

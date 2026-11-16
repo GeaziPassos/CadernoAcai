@@ -30,7 +30,7 @@ export async function deactivate(id: number): Promise<boolean> {
 export async function reactivate(id: number) {
     const resultado = await pool.query(
         `
-        UPDATE FROM pessoa
+        UPDATE maquina
         SET ativo = true
         WHERE id = $1
         `,

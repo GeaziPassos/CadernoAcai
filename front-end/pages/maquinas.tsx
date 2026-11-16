@@ -18,8 +18,9 @@ function Maquinas() {
     const [tag, setTag] = useState("");
     const [maquinas, setMaquinas] = useState<Maquina[]>([]);
     const [filtroStatus, setFiltroStatus] = useState("ativos");
-    const [filtroTag, setFiltroTag] = useState("")
-    const [filtroLinha, setFiltroLinha] = useState<number | undefined>()
+    const [filtroTag, setFiltroTag] = useState("");
+    const [filtroLinha, setFiltroLinha] = useState<number | undefined>();
+    const [maquina, setMaquina] = useState<Maquina>();
 
     async function carregarMaquinas(){
         const resposta = await fetch("http://localhost:3006/maquinas")
@@ -28,6 +29,37 @@ function Maquinas() {
 
         setMaquinas(dados);
     }
+
+    async function editarMaquina(maquina: Maquina) {
+
+        const editar = await fetch("http://localhost:3006/maquinas/update", {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({maquina: maquina})
+        })
+
+        setMaquina(undefined);
+        carregarMaquinas();
+
+    }
+
+    async function alterarEstadoMaquina(maquina: Maquina) {
+
+        if(maquina.ativo) {
+            const alterarEstado = await fetch("http://localhost:3006/maquinas/deactivate", {
+                method: "PATCH",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({id: maquina.id})
+            })
+        }else {
+            const alterarEstado = await fetch("http://localhost:3006/maquinas/reactivate", {
+                method: "PATCH",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({id: maquina.id})
+            })
+        }
+        carregarMaquinas();
+}
 
     async function cadastrarMaquina(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -198,6 +230,10 @@ function Maquinas() {
                                             <td>{maquina.tag}</td>
 
                                             <td>{maquina.ativo ? "Ativo" : "Inativo"}</td>
+
+                                            <td>
+                                                <button onClick={() => alterarEstadoMaquina(maquina)}>{maquina.ativo ? "Desativar" : "Ativar"}</button>
+                                            </td>
                                             
                                         </tr>
                                     ))}

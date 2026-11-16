@@ -5,8 +5,8 @@ const router = Router();
 
 router.post("/", maquinaController.create);
 router.get("/", maquinaController.readAll);
-router.patch("/", maquinaController.deactivate);
-router.patch("/", maquinaController.reactivate);
-router.put("/", maquinaController.update);
+router.patch("/deactivate", maquinaController.deactivate);
+router.patch("/reactivate", maquinaController.reactivate);
+router.put("/update", maquinaController.update);
 
 export default router;

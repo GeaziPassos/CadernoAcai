@@ -30,8 +30,8 @@ function Maquinas() {
         setMaquinas(dados);
     }
 
-    async function editarMaquina(maquina: Maquina) {
-
+    async function editarMaquina(event: React.FormEvent<HTMLFormElement>, maquina: Maquina) {
+        event.preventDefault();
         const editar = await fetch("http://localhost:3006/maquinas/update", {
             method: "PUT",
             headers: {"Content-Type": "application/json"},
@@ -139,7 +139,7 @@ function Maquinas() {
 
                                 <form onSubmit={cadastrarMaquina}>
 
-                                    <label htmlFor="Linha">Linha:</label>
+                                    <label htmlFor="linha">Linha:</label>
 
                                     <input
                                     type="number"
@@ -234,12 +234,56 @@ function Maquinas() {
                                             <td>
                                                 <button onClick={() => alterarEstadoMaquina(maquina)}>{maquina.ativo ? "Desativar" : "Ativar"}</button>
                                             </td>
+
+                                            <td>
+                                                <button onClick={() => setMaquina(maquina)}>Editar</button>
+                                            </td>
                                             
                                         </tr>
                                     ))}
                                 </tbody>
 
                             </table>
+
+                            {maquina && (
+                                <dialog open>
+                                    <h2>Editar Máquina</h2>
+
+                                <form onSubmit={(e) => editarMaquina(e, maquina)}>
+
+                                    <label htmlFor="linha">Linha:</label>
+                                    
+                                    <input
+                                    type="number"
+                                    id="linha"
+                                    value={maquina.linha}
+                                    onChange={(e) => setMaquina({
+                                        ...maquina,
+                                        linha: Number(e.target.value)  
+                                     })}
+                                     required
+                                    />
+                                
+                                    <label htmlFor="tag">TAG:</label>
+
+                                    <input
+                                    type="text"
+                                    id="tag"
+                                    value={maquina.tag}
+                                    onChange={(e) => setMaquina({
+                                        ...maquina,
+                                        tag: e.target.value
+                                    })}
+                                    required
+                                    />
+
+                                    <button type="submit">Salvar</button>
+                                    <button type="button" onClick={() => setMaquina(undefined)}>Cancelar</button>
+
+                                </form>
+                                </dialog>
+
+                            )}
 
                         </div>
 

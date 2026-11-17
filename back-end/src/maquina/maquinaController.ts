@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import * as maquinaRepository from "./maquinaRepository.js";
+import type { Maquina } from "./maquinaTypes.js";
 
 export async function create (req: Request, res: Response) {
     const {linha, tag} = req.body;
@@ -34,14 +35,14 @@ export async function reactivate(req: Request, res: Response) {
 }
 
 export async function update(req: Request, res: Response) {
-    const dados = {
+    const maquina: Maquina = {
         id: Number(req.body.id),
         linha: Number(req.body.linha),
         tag: String(req.body.tag),
         ativo: Boolean(req.body.ativo)
     }
-
-    const update = await maquinaRepository.update(dados);
+    
+    const update = await maquinaRepository.update(maquina);
 
     return res.json(update)
 }

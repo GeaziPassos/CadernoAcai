@@ -155,10 +155,6 @@ function Pessoas() {
 
                     <div className="painel">
 
-                        <div className="painel-topo">
-                                <h3>Equipe</h3>
-                        </div>
-
                         <input
                         type="search" 
                         className="barra-pesquisa"

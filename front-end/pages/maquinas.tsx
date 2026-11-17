@@ -174,10 +174,6 @@ function Maquinas() {
 
                     <div className="painel">
 
-                        <div className="painel-topo">
-                                <h3>Equipe</h3>
-                        </div>
-
                         <div className="tabela-container">
 
                             <table>

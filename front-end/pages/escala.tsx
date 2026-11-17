@@ -10,7 +10,7 @@ function Escala() {
             <Sidebar />
 
                 <main className="conteudo">
-                    <Topbar />
+                    
                 </main>
         </>
     )

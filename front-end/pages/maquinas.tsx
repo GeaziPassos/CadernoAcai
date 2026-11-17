@@ -121,7 +121,6 @@ function Maquinas() {
             <Sidebar/>
             
             <main className="conteudo">
-                <Topbar/>
 
                 <section className="pagina">        
 

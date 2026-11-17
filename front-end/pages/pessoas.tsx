@@ -112,7 +112,6 @@ function Pessoas() {
             <Sidebar/>
             
             <main className="conteudo">
-                <Topbar/>
 
                 <section className="pagina">        
 

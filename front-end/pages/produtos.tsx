@@ -103,7 +103,6 @@ function Produtos(){
             <Sidebar />
 
                 <main className="conteudo">
-                    <Topbar />
 
                     <section className="pagina">
 

@@ -39,7 +39,7 @@ function Maquinas() {
         })
 
         setMaquina(undefined);
-        carregarMaquinas();
+        await carregarMaquinas();
 
     }
 

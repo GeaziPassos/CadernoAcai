@@ -36,10 +36,10 @@ export async function reactivate(req: Request, res: Response) {
 
 export async function update(req: Request, res: Response) {
     const maquina: Maquina = {
-        id: Number(req.body.id),
-        linha: Number(req.body.linha),
-        tag: String(req.body.tag),
-        ativo: Boolean(req.body.ativo)
+        id: Number(req.body.maquina.id),
+        linha: Number(req.body.maquina.linha),
+        tag: String(req.body.maquina.tag),
+        ativo: Boolean(req.body.maquina.ativo)
     }
     
     const update = await maquinaRepository.update(maquina);

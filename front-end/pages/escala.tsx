@@ -1,37 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react';
+import Sidebar from '../components/sidebar.js';
+import Topbar from '../components/topbar.js';
 
-import Sidebar from "../components/sidebar.js"
-import Topbar from "../components/topbar.js"
-
-interface Maquina{
-    id: number,
-    linha: number,
-    tag: String,
-    ativo: boolean
+interface Maquina {
+  id: number;
+  linha: number;
+  tag: string;
+  ativo: boolean;
 }
 
-function Escala() {
+export default function Escala() {
+  const [maquinas, setMaquinas] = useState<Maquina[]>([]);
 
-    async function buscarMaquinas(){
-        const dados = await fetch("http://localhost:3006/maquinas")
-        const resultado = dados.json();
-        return console.log(resultado);
+  useEffect(() => {
+    async function buscarMaquinas() {
+        const resposta = await fetch('http://localhost:3006/maquinas');
+        const dados = await resposta.json();
+        setMaquinas(dados);
     }
 
-    return(
-        <>
-            <Sidebar />
+    buscarMaquinas();
+  }, []);
 
-                <main className="conteudo">
-                    <div className="tabela-escala">
-                        
-                        <div className="maquina-container">
-                            {buscarMaquinas()}
-                        </div>                        
-                    </div>
-                </main>
-        </>
-    )
+  return (
+    <>
+      <Sidebar />
+      <main className="conteudo">
+        <div className="tabela-escala">
+            {maquinas.map((maq) => (
+                <div key={maq.id}>
+                  <div className="maquina-container">
+                <p>Tag: {maq.tag} - Linha: {maq.linha}</p>
+              </div>
+          </div>
+            ))}
+        </div>
+      </main>
+    </>
+  );
 }
-
-export default Escala

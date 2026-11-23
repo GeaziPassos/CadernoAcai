@@ -26,7 +26,7 @@ interface Produto {
 export default function Escala() {
   const [maquinas, setMaquinas] = useState<Maquina[]>([]);
   const [pessoas, setPessoas] = useState<Pessoa[]>([]);
-  const [produtos, setProdutos] = useState<Maquina[]>([]);
+  const [produtos, setProdutos] = useState<Produto[]>([]);
 
   
   useEffect(() => {
@@ -70,7 +70,23 @@ export default function Escala() {
   return nomeOptions;
 }
 
-const MyComponent = () => (
+const carregarProdutosList = () => {
+  const produtoOptions = [];
+
+  for(const produto of produtos) {
+    const produtoOption = {value: produto.nome, label: produto.nome}
+
+    produtoOptions.push(produtoOption);
+  }
+
+  return produtoOptions;
+}
+
+const selectProdutosComponent = () => (
+  <Select options={carregarProdutosList()}/>
+)
+
+const selectNomesComponent = () => (
     <Select isMulti options={carregarNameList()} />
 )
   
@@ -83,7 +99,8 @@ const MyComponent = () => (
             {maquinas.map((maq) => (
               <div className="maquina-container" key={maq.id}>
                 <p>{maq.linha}</p>
-                <div>{MyComponent()}</div>
+                <div className='nomes-list'>{selectNomesComponent()}</div>
+                <div className='nomes-list'>{selectProdutosComponent()}</div>
               </div>
 
             ))}

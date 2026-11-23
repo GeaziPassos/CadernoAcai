@@ -13,7 +13,7 @@ interface Maquina {
 
 interface Pessoa {
   id: number,
-  nome: String,
+  nome: string,
   ativo: boolean
 }
 
@@ -27,6 +27,12 @@ export default function Escala() {
   const [maquinas, setMaquinas] = useState<Maquina[]>([]);
   const [pessoas, setPessoas] = useState<Pessoa[]>([]);
   const [produtos, setProdutos] = useState<Produto[]>([]);
+  const [selecionados, setSelecionado] = useState<{
+    [maquinaId: number]: {
+      pessoas: number[]
+      produto: number | null;
+    }
+  }>({})
 
   
   useEffect(() => {
@@ -59,36 +65,28 @@ export default function Escala() {
     buscarPessoas();
   }, []);
   
- const carregarNameList = () => {
-   const nomeOptions = [];
+ const pessoasOptions = () => {
+   const pessoasOptions = [];
    
    for (const pessoa of pessoas) {
-     let nomeOption = {value: pessoa.nome, label: pessoa.nome};
-     nomeOptions.push(nomeOption)
+     let nomeOption = {value: pessoa.id, label: pessoa.nome};
+     pessoasOptions.push(nomeOption)
   }
 
-  return nomeOptions;
+  return pessoasOptions;
 }
 
-const carregarProdutosList = () => {
+const produtosOptions = () => {
   const produtoOptions = [];
 
   for(const produto of produtos) {
-    const produtoOption = {value: produto.nome, label: produto.nome}
+    const produtoOption = {value: produto.id, label: produto.nome}
 
     produtoOptions.push(produtoOption);
   }
 
   return produtoOptions;
 }
-
-const selectProdutosComponent = () => (
-  <Select options={carregarProdutosList()}/>
-)
-
-const selectNomesComponent = () => (
-    <Select isMulti options={carregarNameList()} />
-)
   
   return (
     <>
@@ -99,8 +97,28 @@ const selectNomesComponent = () => (
             {maquinas.map((maq) => (
               <div className="maquina-container" key={maq.id}>
                 <p>{maq.linha}</p>
-                <div className='nomes-list'>{selectNomesComponent()}</div>
-                <div className='nomes-list'>{selectProdutosComponent()}</div>
+                <div className='nomes-list'>{}</div>
+
+                <Select className='nomes-list'
+                  isMulti
+                  options={pessoasOptions()}
+                  
+                  value={pessoasOptions().filter((pessoa) => selecionados[maq.id]?.pessoas.includes(pessoa.value,))}
+
+                  onChange={(opcoes) => {
+                    setSelecionado({
+                      ...selecionados,
+                      [maq.id]: {
+                        pessoas: opcoes.map((opcao) => opcao.value),
+                        produto: selecionados[maq.id]?.produto ?? null
+                      }
+                    });
+                  }}
+                  />
+
+                <Select className='produtos-list'
+                  options={produtosOptions()}
+                />
               </div>
 
             ))}

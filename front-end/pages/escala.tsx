@@ -69,8 +69,10 @@ export default function Escala() {
    const pessoasOptions = [];
    
    for (const pessoa of pessoas) {
-     let nomeOption = {value: pessoa.id, label: pessoa.nome};
-     pessoasOptions.push(nomeOption)
+    if(pessoa.ativo){
+      let nomeOption = {value: pessoa.id, label: pessoa.nome};
+      pessoasOptions.push(nomeOption)
+    }
   }
 
   return pessoasOptions;
@@ -80,9 +82,12 @@ const produtosOptions = () => {
   const produtoOptions = [];
 
   for(const produto of produtos) {
-    const produtoOption = {value: produto.id, label: produto.nome}
+    if(produto.ativo){
 
-    produtoOptions.push(produtoOption);
+      const produtoOption = {value: produto.id, label: produto.nome}
+      
+      produtoOptions.push(produtoOption);
+    }
   }
 
   return produtoOptions;
@@ -122,6 +127,24 @@ const produtosOptions = () => {
               </div>
 
             ))}
+
+            <div className='lista-pessoas-escala'></div>
+            {pessoas
+              .filter((pessoa) => pessoa.ativo)
+              .map((pessoa) => (
+                <div
+                  className={`pessoa-slot ${
+                    Object.values(selecionados).some((maquina) =>
+                      maquina.pessoas.includes(pessoa.id)
+                    )
+                      ? 'pessoa-slot-ocupada'
+                      : 'pessoa-slot-livre'
+                  }`}
+                  key={pessoa.id}
+                >
+                  <p>{pessoa.nome}</p>
+                </div>
+              ))}
 
         </div>
       </main>

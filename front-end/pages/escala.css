@@ -1,0 +1,504 @@
+
+/* ========================================
+   CONFIGURAÇÕES GERAIS
+======================================== */
+
+.conteudo {
+    min-height: 100vh;
+    padding: 24px;
+    background: #f8f7f9;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #171717;
+    box-sizing: border-box;
+}
+
+.conteudo * {
+    box-sizing: border-box;
+}
+
+/* ========================================
+   ORGANIZAÇÃO PRINCIPAL
+======================================== */
+
+.tabela-escala {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 422px;
+    align-items: start;
+    gap: 32px;
+    width: 100%;
+}
+
+/* ========================================
+   LISTA DE MÁQUINAS
+======================================== */
+
+.lista-maquinas-escala {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+/* ========================================
+   CARTÕES DAS MÁQUINAS
+======================================== */
+
+.maquina-container {
+    display: grid;
+    grid-template-columns: 45px minmax(0, 1fr) 160px;
+    align-items: center;
+    gap: 8px;
+
+    width: 100%;
+    min-height: 48px;
+    padding: 5px 7px;
+
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.maquina-container:hover {
+    background: #ffffff;
+    border-color: #e4e0e7;
+}
+
+/* Identificação da linha */
+
+.maquina-container > p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 34px;
+    height: 29px;
+    margin: 0 auto;
+
+    background: #f8f7f9;
+    border: 1px solid #e2dfe5;
+    border-radius: 18px;
+
+    font-size: 12px;
+    font-weight: 600;
+    color: #25232a;
+}
+
+/* ========================================
+   REACT SELECT
+======================================== */
+
+.nomes-list,
+.produtos-list {
+    width: 100%;
+    min-width: 0;
+}
+
+/* Campo principal */
+
+.nomes-list [class*="-control"],
+.produtos-list [class*="-control"] {
+    min-height: 29px;
+    height: auto;
+
+    background: #faf9fb;
+    border: 1px solid #e1dde5;
+    border-radius: 6px;
+
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.nomes-list [class*="-control"]:hover,
+.produtos-list [class*="-control"]:hover {
+    border-color: #c5b8ce;
+}
+
+.nomes-list [class*="-control--is-focused"],
+.produtos-list [class*="-control--is-focused"] {
+    border-color: #9400a5;
+    box-shadow: 0 0 0 2px rgba(148, 0, 165, 0.08);
+}
+
+/* Conteúdo interno */
+
+.nomes-list [class*="-value-container"],
+.produtos-list [class*="-value-container"] {
+    padding: 2px 7px;
+    gap: 3px;
+}
+
+.nomes-list [class*="-placeholder"],
+.produtos-list [class*="-placeholder"],
+.nomes-list [class*="-singleValue"],
+.produtos-list [class*="-singleValue"] {
+    margin: 0;
+    font-size: 12px;
+    color: #625c66;
+}
+
+.nomes-list input,
+.produtos-list input {
+    font-size: 12px;
+}
+
+/* Pessoas selecionadas */
+
+.nomes-list [class*="-multiValue"] {
+    margin: 2px;
+    background: #f7f5f8;
+    border: 1px solid #e2dfe5;
+    border-radius: 5px;
+}
+
+.nomes-list [class*="-multiValueLabel"] {
+    padding: 4px 7px;
+    font-size: 12px;
+    color: #24212a;
+}
+
+.nomes-list [class*="-multiValueRemove"] {
+    padding: 3px 5px;
+    color: #68616c;
+    cursor: pointer;
+}
+
+.nomes-list [class*="-multiValueRemove"]:hover {
+    background: #f1e4f3;
+    color: #9400a5;
+}
+
+/* Setas */
+
+.nomes-list [class*="-indicator"],
+.produtos-list [class*="-indicator"] {
+    padding: 5px;
+    color: #68616c;
+}
+
+/* Menu de opções */
+
+.nomes-list [class*="-menu"],
+.produtos-list [class*="-menu"] {
+    z-index: 100;
+    border: 1px solid #e1dde5;
+    border-radius: 7px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.nomes-list [class*="-option"],
+.produtos-list [class*="-option"] {
+    padding: 9px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.nomes-list [class*="-option--is-focused"],
+.produtos-list [class*="-option--is-focused"] {
+    background: #f4eff6;
+}
+
+.nomes-list [class*="-option--is-selected"],
+.produtos-list [class*="-option--is-selected"] {
+    background: #eee2f2;
+    color: #802b91;
+}
+
+/* ========================================
+   PAINEL DE COLABORADORES
+======================================== */
+
+.painel-colaboradores {
+    width: 100%;
+    min-width: 0;
+
+    padding: 5px;
+    margin-top: 9px;
+
+    background: #ffffff;
+    border: 1px solid #dedce2;
+    border-radius: 9px;
+}
+
+.painel-colaboradores h3 {
+    margin: 2px 0 16px;
+
+    font-size: 15px;
+    font-weight: 500;
+    color: #171717;
+}
+
+/* Lista de pessoas */
+
+.lista-pessoas-escala {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+
+    width: 100%;
+}
+
+/* Cartão de cada pessoa */
+
+.pessoa-slot {
+    display: flex;
+    align-items: center;
+
+    margin: 4px;
+
+    min-width: 0;
+    min-height: 29px;
+    padding: 5px 9px;
+
+    border: 1px solid transparent;
+    border-radius: 5px;
+
+    transition: background 0.2s;
+}
+
+.pessoa-slot p {
+    overflow: hidden;
+    margin: 0;
+
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Pessoa ocupada - CINZA */
+
+.pessoa-slot-ocupada {
+    background: #f0eeee;
+    border-color: #f0eeee;
+    color: #514c52;
+}
+
+/* Pessoa disponível - VERDE */
+
+.pessoa-slot-livre {
+    background: #dfefe2;
+    border-color: #dfefe2;
+    color: #16803a;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+======================================== */
+
+@media (max-width: 1150px) {
+    .tabela-escala {
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 16px;
+    }
+
+    .maquina-container {
+        grid-template-columns: 38px minmax(0, 1fr) 125px;
+    }
+}
+
+@media (max-width: 800px) {
+    .tabela-escala {
+        grid-template-columns: 1fr;
+    }
+
+    .painel-colaboradores {
+        grid-row: 2;
+    }
+}
+
+@media (max-width: 500px) {
+    .conteudo {
+        padding: 10px;
+    }
+
+    .maquina-container {
+        grid-template-columns: 35px minmax(0, 1fr);
+        gap: 7px;
+        padding: 7px 3px;
+    }
+
+    .produtos-list {
+        grid-column: 2;
+    }
+
+    .lista-pessoas-escala {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* ========================================
+   HEADER DA ESCALA
+======================================== */
+
+.escala-header {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    width: 100%;
+    min-height: 51px;
+    padding: 7px 20px;
+
+    background: #ffffff;
+    border-bottom: 1px solid #e3e0e6;
+
+    font-size: 13px;
+}
+
+/* Identificação */
+
+.header-identificacao {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.header-identificacao strong {
+    font-size: 14px;
+    color: #171717;
+}
+
+.header-identificacao span {
+    color: #77717d;
+}
+
+/* Navegação de data */
+
+.header-data {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.header-data input {
+    width: 128px;
+    height: 32px;
+    padding: 4px 8px;
+
+    background: #faf9fb;
+    border: 1px solid #dedce3;
+    border-radius: 6px;
+
+    font-family: inherit;
+    font-size: 12px;
+    color: #24212a;
+}
+
+.btn-data {
+    width: 29px;
+    height: 29px;
+
+    background: #faf9fb;
+    border: 1px solid #dedce3;
+    border-radius: 6px;
+
+    font-size: 20px;
+    color: #514b56;
+    cursor: pointer;
+}
+
+.btn-data:hover,
+.btn-hoje:hover {
+    background: #f0edf2;
+}
+
+.btn-hoje {
+    height: 29px;
+    padding: 0 10px;
+
+    background: transparent;
+    border: none;
+    border-radius: 5px;
+
+    font-size: 12px;
+    color: #77717d;
+    cursor: pointer;
+}
+
+.dia-semana {
+    margin-left: 5px;
+    color: #665071;
+    font-size: 13px;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+/* Ações */
+
+.header-acoes {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.status-escala {
+    font-size: 12px;
+    color: #77717d;
+    white-space: nowrap;
+}
+
+.btn-salvar {
+    height: 29px;
+    padding: 0 12px;
+
+    background: #9400a5;
+    border: none;
+    border-radius: 6px;
+
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff;
+
+    cursor: pointer;
+}
+
+.btn-salvar:hover {
+    background: #79008a;
+}
+
+.btn-salvar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Responsividade */
+
+@media (max-width: 850px) {
+    .escala-header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .header-acoes {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 550px) {
+    .escala-header {
+        padding: 10px;
+    }
+
+    .header-data {
+        order: 3;
+        width: 100%;
+    }
+
+    .header-acoes {
+        gap: 6px;
+    }
+
+    .status-escala {
+        font-size: 10px;
+    }
+}

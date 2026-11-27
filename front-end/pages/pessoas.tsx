@@ -24,12 +24,11 @@ function Pessoas() {
     const [pessoas, setPessoas] = useState<Pessoa[]>([]);
     const [filtroStatus, setFiltroStatus] = useState("ativos");
     const [filtroNome, setFiltroNome] = useState("")
-    const [alterarStatusDe, setAlterarStatusDe] = useState<number>()
-    const [modalAbertoEditar, setModalAbertoEditar] = useState(false);
+    const [ordem, setOrdem] = useState<"asc" | "desc">("asc");
     const [pessoa, setPessoa] = useState<Pessoa>();
     
     async function carregarPessoas(){
-        const resposta = await fetch("http://localhost:3006/pessoas")
+        const resposta = await fetch(`http://localhost:3006/pessoas?ordem=${ordem}`);
 
         const dados: Pessoa[] = await resposta.json();
 
@@ -107,6 +106,10 @@ function Pessoas() {
         await carregarPessoas();
     }
 
+    useEffect(() => {
+        carregarPessoas();
+    }, [ordem]);
+
     return(
         <>
             <Sidebar/>
@@ -169,6 +172,9 @@ function Pessoas() {
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
+                                            <button onClick={() => setOrdem(ordem === "asc" ? "desc" : "asc")}>
+                                                {ordem === "asc" ? "A → Z" : "Z → A"}
+                                            </button>
                                         <th>Dupla</th>
                                         <th>
                                             Status

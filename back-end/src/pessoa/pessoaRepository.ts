@@ -66,10 +66,11 @@ export async function read(id: number): Promise<Pessoa | null> {
     return resultado.rows[0] ?? null;
 }
 
-export async function readAll(): Promise<Pessoa[]> {
+export async function readAll(ordem: "asc" | "desc" = "asc"): Promise<Pessoa[]> {
     const resultado = await pool.query(
         `
         SELECT * FROM pessoa
+        ORDER BY nome ${ordem === "desc" ? "DESC" : "ASC"}
         `
     )
 

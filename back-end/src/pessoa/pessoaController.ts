@@ -44,7 +44,10 @@ export async function update(req: Request, res: Response) {
 
 export async function readAll(req: Request, res: Response) {
     try{
-        const pessoas = await pessoaRepository.readAll();
+
+        const ordem = req.query.ordem === "desc" ? "desc" : "asc";
+        console.log(ordem)
+        const pessoas = await pessoaRepository.readAll(ordem);
 
         return res.status(200).json(pessoas);
     }catch (error) {

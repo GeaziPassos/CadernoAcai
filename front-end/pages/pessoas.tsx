@@ -1,5 +1,6 @@
 import Sidebar from "../components/sidebar.js"
 import Topbar from "../components/topbar.js"
+import { gerarRelatorioAtividades } from "../relatorios/gerarRelatorioAtividades.js";
 
 import {useState} from "react";
 import {useEffect} from "react";
@@ -105,6 +106,62 @@ function Pessoas() {
 
         await carregarPessoas();
     }
+
+
+    const [dataInicio, setDataInicio] = useState(() => {
+        const hoje = new Date();
+        return `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}-01`;
+    });
+
+    const [dataFim, setDataFim] = useState(() => {
+        const hoje = new Date();
+        return `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}-${String(hoje.getDate()).padStart(2, "0")}`;
+    });
+
+    const [gerandoRelatorio, setGerandoRelatorio] = useState(false);
+
+
+    async function gerarRelatorio() {
+        if (dataInicio > dataFim) {
+            alert("A data inicial não pode ser maior que a data final.");
+            return;
+        }
+
+        setGerandoRelatorio(true);
+
+        try {
+            const [respostaAtividades, respostaRodizio] = await Promise.all([
+                fetch(
+                    `http://localhost:3006/relatorios/atividades?inicio=${dataInicio}&fim=${dataFim}`
+                ),
+                fetch(
+                    `http://localhost:3006/relatorios/rodizio?data=${dataFim}`
+                )
+            ]);
+
+            if (!respostaAtividades.ok || !respostaRodizio.ok) {
+                throw new Error("Erro ao buscar dados dos relatórios.");
+            }
+
+            const atividades = await respostaAtividades.json();
+            const rodizio = await respostaRodizio.json();
+
+            gerarRelatorioAtividades({
+                atividades: atividades.atividades,
+                alertas: atividades.alertas,
+                rodizio,
+                inicio: dataInicio,
+                fim: dataFim
+            });
+
+        } catch (erro) {
+            console.error("Erro ao gerar relatório:", erro);
+            alert("Não foi possível gerar o relatório.");
+        } finally {
+            setGerandoRelatorio(false);
+        }
+    }
+
 
     useEffect(() => {
         carregarPessoas();
@@ -255,6 +312,45 @@ function Pessoas() {
                     </div>
 
                 </section>
+
+                <div className="painel-relatorios">
+
+                    <h3>Relatório de atividades e rodízio</h3>
+
+                    <div className="filtros-relatorio">
+
+                        <div>
+                            <label htmlFor="dataInicio">Data inicial</label>
+                            <input
+                                type="date"
+                                id="dataInicio"
+                                value={dataInicio}
+                                onChange={(e) => setDataInicio(e.target.value)}
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="dataFim">Data final</label>
+                            <input
+                                type="date"
+                                id="dataFim"
+                                value={dataFim}
+                                onChange={(e) => setDataFim(e.target.value)}
+                            />
+                        </div>
+
+                        <button
+                            onClick={gerarRelatorio}
+                            disabled={gerandoRelatorio}
+                        >
+                            {gerandoRelatorio
+                                ? "Gerando..."
+                                : "Gerar relatório PDF"}
+                        </button>
+
+                    </div>
+
+                </div>
 
             </main>
         </>

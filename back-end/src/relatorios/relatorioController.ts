@@ -30,3 +30,66 @@ export async function escalaDiaria(req: Request, res: Response) {
         });
     }
 }
+
+
+
+export async function buscarAtividades(req: Request, res: Response) {
+    try {
+        const inicio = req.query.inicio;
+        const fim = req.query.fim;
+
+        if (
+            typeof inicio !== "string" ||
+            typeof fim !== "string"
+        ) {
+            return res.status(400).json({
+                mensagem: "Informe uma data inicial e uma data final válidas."
+            });
+        }
+
+        if (inicio > fim) {
+            return res.status(400).json({
+                mensagem: "A data inicial não pode ser maior que a data final."
+            });
+        }
+
+        const relatorio = await relatorioRepository.buscarAtividades(
+            inicio,
+            fim
+        );
+
+        return res.status(200).json(relatorio);
+
+    } catch (erro) {
+        console.error("Erro ao buscar atividades:", erro);
+
+        return res.status(500).json({
+            mensagem: "Erro ao buscar o histórico de atividades."
+        });
+    }
+}
+
+
+
+export async function buscarRodizio(req: Request, res: Response) {
+    try {
+        const data = req.query.data;
+
+        if (typeof data !== "string") {
+            return res.status(400).json({
+                mensagem: "Informe uma data válida."
+            });
+        }
+
+        const rodizio = await relatorioRepository.buscarRodizio(data);
+
+        return res.status(200).json(rodizio);
+
+    } catch (erro) {
+        console.error("Erro ao buscar rodízio:", erro);
+
+        return res.status(500).json({
+            mensagem: "Erro ao buscar o rodízio de pessoas."
+        });
+    }
+}

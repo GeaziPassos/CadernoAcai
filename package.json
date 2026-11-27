@@ -3,6 +3,8 @@
     "cors": "^2.8.6",
     "dotenv": "^18.0.9",
     "express": "^5.3.0",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.9",
     "mysql2": "^3.24.6",
     "pg": "^8.23.1",
     "react": "^19.3.1",
@@ -40,6 +42,7 @@
   "license": "ISC",
   "type": "module",
   "allowScripts": {
-    "esbuild@0.28.2": true
+    "core-js@3.51.0": true,
+    "esbuild@0.25.12": true
   }
 }

@@ -18,9 +18,10 @@ function Produtos(){
     const [filtroStatus, setFiltroStatus] = useState("ativo");
     const [filtroNome, setFiltroNome] = useState("");
     const [produto, setProduto] = useState<Produto>();
+    const [ordem, setOrdem] = useState<"asc" | "desc">("asc")
 
     async function carregarProdutos(){
-        const resposta = await fetch("http://localhost:3006/produtos");
+        const resposta = await fetch(`http://localhost:3006/produtos?ordem=${ordem}`);
         
         const dados: Produto[] = await resposta.json();
 
@@ -96,7 +97,7 @@ function Produtos(){
   
     useEffect(() => {
         carregarProdutos();
-    }, []);
+    }, [ordem]);
     
     return(
         <>
@@ -160,6 +161,9 @@ function Produtos(){
                                     <tr>
                                         <th>
                                             Nome
+                                            <button onClick={() => setOrdem(ordem === "asc" ? "desc" : "asc")}>
+                                                {ordem === "asc" ? "A → Z" : "Z → A"}
+                                            </button>
                                         </th>
 
                                         <th>

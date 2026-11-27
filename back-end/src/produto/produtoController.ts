@@ -12,7 +12,10 @@ export async function create(req: Request, res: Response) {
 }
 
 export async function readAll(req: Request, res: Response) {
-    const produtos = await produtoRepository.readAll();
+
+    const ordem = req.query.ordem === "desc" ? "desc" : "asc"
+
+    const produtos = await produtoRepository.readAll(ordem);
 
     return res.json(produtos);
 }

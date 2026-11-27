@@ -46,7 +46,7 @@ export async function readAll(req: Request, res: Response) {
     try{
 
         const ordem = req.query.ordem === "desc" ? "desc" : "asc";
-        console.log(ordem)
+        
         const pessoas = await pessoaRepository.readAll(ordem);
 
         return res.status(200).json(pessoas);

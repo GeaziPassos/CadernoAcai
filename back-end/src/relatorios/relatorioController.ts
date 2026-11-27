@@ -93,3 +93,38 @@ export async function buscarRodizio(req: Request, res: Response) {
         });
     }
 }
+
+
+
+export async function buscarRelatorioMensal(req: Request, res: Response) {
+    try {
+        const mes = Number(req.query.mes);
+        const ano = Number(req.query.ano);
+
+        if (
+            !Number.isInteger(mes) ||
+            mes < 1 ||
+            mes > 12 ||
+            !Number.isInteger(ano) ||
+            ano < 1
+        ) {
+            return res.status(400).json({
+                mensagem: "Mês ou ano inválido."
+            });
+        }
+
+        const relatorio = await relatorioRepository.buscarRelatorioMensal(
+            mes,
+            ano
+        );
+
+        return res.status(200).json(relatorio);
+
+    } catch (erro) {
+        console.error("Erro ao buscar relatório mensal:", erro);
+
+        return res.status(500).json({
+            mensagem: "Erro ao gerar relatório mensal."
+        });
+    }
+}

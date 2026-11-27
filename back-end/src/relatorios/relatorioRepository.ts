@@ -1,6 +1,7 @@
 
 import pool from "./../../db.js";
 import type { MaquinaRelatorio, RelatorioEscalaDiaria } from "./relatorioTypes.js";
+import type { RelatorioMensal, ProdutoMensal, MaquinaResumoMensal} from "./relatorioTypes.js";
 
 export async function escalaDiaria(
     data: string
@@ -328,4 +329,185 @@ export async function buscarRodizio(
     );
 
     return rodizio;
+}
+
+
+
+
+export async function buscarRelatorioMensal(
+    mes: number,
+    ano: number
+): Promise<RelatorioMensal> {
+
+    // 1. Resumo do mês
+    const resumoResult = await pool.query(
+        `
+        SELECT
+            COUNT(DISTINCT em.produto_id)
+                FILTER (WHERE em.produto_id IS NOT NULL)::integer
+                AS total_produtos,
+
+            COUNT(DISTINCT em.maquina_id)
+                FILTER (
+                    WHERE EXISTS (
+                        SELECT 1
+                        FROM escala_pessoa ep
+                        WHERE ep.escala_maquina_id = em.id
+                    )
+                )::integer AS total_maquinas,
+
+            COUNT(DISTINCT e.id)::integer AS total_dias
+
+        FROM escala e
+
+        LEFT JOIN escala_maquina em
+            ON em.escala_id = e.id
+
+        WHERE EXTRACT(MONTH FROM e.data) = $1
+          AND EXTRACT(YEAR FROM e.data) = $2
+        `,
+        [mes, ano]
+    );
+
+    const resumo = resumoResult.rows[0];
+
+    const totalProdutos = Number(resumo.total_produtos);
+    const totalMaquinas = Number(resumo.total_maquinas);
+    const totalDiasComEscala = Number(resumo.total_dias);
+
+
+    // 2. Produtos e máquinas em que foram escalados
+    const produtosResult = await pool.query(
+        `
+        SELECT
+            pr.id AS produto_id,
+            pr.nome AS produto,
+            m.id AS maquina_id,
+            m.tag,
+            m.linha,
+            COUNT(DISTINCT e.id)::integer AS dias_trabalhados
+
+        FROM escala e
+
+        INNER JOIN escala_maquina em
+            ON em.escala_id = e.id
+
+        INNER JOIN produto pr
+            ON pr.id = em.produto_id
+
+        INNER JOIN maquina m
+            ON m.id = em.maquina_id
+
+        WHERE EXTRACT(MONTH FROM e.data) = $1
+          AND EXTRACT(YEAR FROM e.data) = $2
+
+        GROUP BY
+            pr.id, pr.nome,
+            m.id, m.tag, m.linha
+
+        ORDER BY
+            pr.nome ASC,
+            dias_trabalhados DESC,
+            m.linha ASC
+        `,
+        [mes, ano]
+    );
+
+    const produtosMap = new Map<number, ProdutoMensal>();
+
+    for (const row of produtosResult.rows) {
+
+        if (!produtosMap.has(row.produto_id)) {
+            produtosMap.set(row.produto_id, {
+                produtoId: row.produto_id,
+                produto: row.produto,
+                maquinas: []
+            });
+        }
+
+        produtosMap.get(row.produto_id)!.maquinas.push({
+            maquinaId: row.maquina_id,
+            tag: row.tag,
+            linha: row.linha,
+            diasTrabalhados: Number(row.dias_trabalhados)
+        });
+    }
+
+    const produtos = Array.from(produtosMap.values());
+
+
+    // 3. Dias parados por máquina
+    const maquinasResult = await pool.query(
+        `
+        WITH escalas_mes AS (
+            SELECT id
+            FROM escala
+            WHERE EXTRACT(MONTH FROM data) = $1
+              AND EXTRACT(YEAR FROM data) = $2
+        ),
+
+        maquinas_mes AS (
+            SELECT DISTINCT em.maquina_id
+            FROM escala_maquina em
+            INNER JOIN escalas_mes e
+                ON e.id = em.escala_id
+        )
+
+        SELECT
+            m.id AS maquina_id,
+            m.tag,
+            m.linha,
+
+            COUNT(DISTINCT e.id)
+                FILTER (WHERE ep.pessoa_id IS NULL)::integer
+                AS dias_parados
+
+        FROM escalas_mes e
+
+        CROSS JOIN maquinas_mes mm
+
+        INNER JOIN maquina m
+            ON m.id = mm.maquina_id
+
+        LEFT JOIN escala_maquina em
+            ON em.escala_id = e.id
+           AND em.maquina_id = m.id
+
+        LEFT JOIN escala_pessoa ep
+            ON ep.escala_maquina_id = em.id
+
+        GROUP BY m.id, m.tag, m.linha
+
+        ORDER BY m.linha ASC
+        `,
+        [mes, ano]
+    );
+
+    const maquinas: MaquinaResumoMensal[] =
+        maquinasResult.rows.map(row => {
+            const diasParados = Number(row.dias_parados);
+
+            const percentualParada = totalDiasComEscala > 0
+                ? (diasParados / totalDiasComEscala) * 100
+                : 0;
+
+            return {
+                maquinaId: row.maquina_id,
+                tag: row.tag,
+                linha: row.linha,
+                diasParados,
+                percentualParada: Number(percentualParada.toFixed(2))
+            };
+        });
+
+
+    return {
+        mes,
+        ano,
+        totalProdutos,
+        totalMaquinas,
+        totalDiasComEscala,
+        produtos,
+        maquinas
+    };
 }

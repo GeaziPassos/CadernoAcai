@@ -37,3 +37,36 @@ export interface RodizioPessoa {
     pessoa: string;
     escalasConsecutivas: number;
 }
+
+
+
+export interface MaquinaProdutoMensal {
+    maquinaId: number;
+    tag: string | null;
+    linha: number;
+    diasTrabalhados: number;
+}
+
+export interface ProdutoMensal {
+    produtoId: number;
+    produto: string;
+    maquinas: MaquinaProdutoMensal[];
+}
+
+export interface MaquinaResumoMensal {
+    maquinaId: number;
+    tag: string | null;
+    linha: number;
+    diasParados: number;
+    percentualParada: number;
+}
+
+export interface RelatorioMensal {
+    mes: number;
+    ano: number;
+    totalProdutos: number;
+    totalMaquinas: number;
+    totalDiasComEscala: number;
+    produtos: ProdutoMensal[];
+    maquinas: MaquinaResumoMensal[];
+}

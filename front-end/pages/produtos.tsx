@@ -1,5 +1,6 @@
 import Sidebar from "../components/sidebar.js";
 import Topbar from "../components/topbar.js";
+import { gerarRelatorioMensal } from "../relatorios/gerarRelatorioMensal.js";
 
 import {useState} from "react";
 import {useEffect} from "react";
@@ -19,6 +20,33 @@ function Produtos(){
     const [filtroNome, setFiltroNome] = useState("");
     const [produto, setProduto] = useState<Produto>();
     const [ordem, setOrdem] = useState<"asc" | "desc">("asc")
+
+    const dataAtual = new Date();
+
+    const [mesRelatorio, setMesRelatorio] = useState(dataAtual.getMonth() + 1);
+    const [anoRelatorio, setAnoRelatorio] = useState(dataAtual.getFullYear());
+
+    async function gerarRelatorio() {
+        try {
+            const resposta = await fetch(
+                `http://localhost:3006/relatorios/mensal?mes=${mesRelatorio}&ano=${anoRelatorio}`
+            );
+
+            if (!resposta.ok) {
+                throw new Error("Erro ao buscar os dados do relatório.");
+            }
+
+            const dados = await resposta.json();
+
+            gerarRelatorioMensal(dados);
+
+        } catch (erro) {
+            console.error("Erro ao gerar relatório mensal:", erro);
+            alert("Não foi possível gerar o relatório mensal.");
+        }
+    }
+
+
 
     async function carregarProdutos(){
         const resposta = await fetch(`http://localhost:3006/produtos?ordem=${ordem}`);
@@ -234,6 +262,45 @@ function Produtos(){
                     </div > 
                         
                 </section>
+
+                <div className="painel">
+                    <h3>Relatório mensal</h3>
+
+                    <div className="filtros-relatorio">
+
+                        <label>
+                            Mês:
+
+                            <select
+                                value={mesRelatorio}
+                                onChange={(e) => setMesRelatorio(Number(e.target.value))}
+                            >
+                                {Array.from({ length: 12 }, (_, i) => (
+                                    <option key={i + 1} value={i + 1}>
+                                        {new Date(2000, i).toLocaleString("pt-BR", {
+                                            month: "long"
+                                        })}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+
+                        <label>
+                            Ano:
+
+                            <input
+                                type="number"
+                                value={anoRelatorio}
+                                onChange={(e) => setAnoRelatorio(Number(e.target.value))}
+                            />
+                        </label>
+
+                        <button onClick={gerarRelatorio}>
+                            Gerar relatório PDF
+                        </button>
+
+                    </div>
+                </div>
 
             </main>
         </>

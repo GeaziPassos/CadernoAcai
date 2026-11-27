@@ -14,7 +14,11 @@ export async function create (req: Request, res: Response) {
 }
 
 export async function readAll(req: Request, res: Response) {
-    const maquinas = await maquinaRepository.readAll();
+
+    const ordem = req.query.ordem === "asc" ? "asc" : "desc"
+    const ordemPor = req.query.ordemPor === "linha" ? "linha" : "tag"
+
+    const maquinas = await maquinaRepository.readAll(ordem, ordemPor);
 
     return res.json(maquinas);
 }

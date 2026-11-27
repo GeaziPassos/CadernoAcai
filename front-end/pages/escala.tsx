@@ -137,7 +137,7 @@ useEffect(() => {
 
   useEffect(() => {
     async function buscarMaquinas() {
-      const resposta = await fetch('http://localhost:3006/maquinas');
+      const resposta = await fetch('http://localhost:3006/maquinas?ordem=asc&ordemPor=linha');
       const dados = await resposta.json();
       setMaquinas(dados);
     }

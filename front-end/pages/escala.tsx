@@ -391,9 +391,27 @@ const produtosOptions = () => {
                   }}
                 />
 
-                <Select className='produtos-list'
+                <Select
+                  className="produtos-list"
                   options={produtosOptions()}
-                  />
+                  value={
+                    produtosOptions().find(
+                      (produto) => produto.value === selecionados[maq.id]?.produto
+                    ) ?? null
+                  }
+                  onChange={(opcao) => {
+                    setSelecionado((anterior) => ({
+                      ...anterior,
+                      [maq.id]: {
+                        pessoas: anterior[maq.id]?.pessoas ?? [],
+                        produto: opcao?.value ?? null
+                      }
+                    }));
+
+                    setAlteracoesNaoSalvas(true);
+                  }}
+                  isClearable
+                />
               </div>
 
             ))}

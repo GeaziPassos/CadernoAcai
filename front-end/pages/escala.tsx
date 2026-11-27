@@ -5,6 +5,7 @@ import Sidebar from '../components/sidebar.js';
 import Topbar from '../components/topbar.js';
 import React from "react";
 import Select from "react-select"
+import { gerarRelatorioEscala } from "../relatorios/gerarRelatorioEscala.js";
 
 interface Maquina {
   id: number;
@@ -66,6 +67,27 @@ function alterarData(data: string, quantidade: number) {
 
 export default function Escala() {
 
+  async function baixarRelatorio() {
+    try {
+        const resposta = await fetch(
+            `http://localhost:3006/relatorios/escala/${dataEscala}`
+        );
+
+        if (!resposta.ok) {
+            const erro = await resposta.json();
+            alert(erro.mensagem);
+            return;
+        }
+
+        const dados = await resposta.json();
+
+        gerarRelatorioEscala(dados);
+
+    } catch (erro) {
+        console.error("Erro ao gerar relatório:", erro);
+        alert("Não foi possível gerar o relatório.");
+    }
+}
 
   const [dataEscala, setDataEscala] = useState(() => {
     const hoje = new Date();
@@ -399,6 +421,11 @@ const produtosOptions = () => {
               ))}
 
             </aside>
+
+            <button type="button" onClick={baixarRelatorio}>
+                Gerar relatório PDF
+            </button>
+
         </div>
       </main>
     </>
